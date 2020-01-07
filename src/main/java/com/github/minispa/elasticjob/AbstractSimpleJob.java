@@ -2,19 +2,17 @@ package com.github.minispa.elasticjob;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import com.github.minispa.MDCTraceHelper;
-import org.slf4j.MDC;
 
-import java.util.UUID;
+import static com.github.minispa.MDCTraceHelper.*;
 
 public abstract class AbstractSimpleJob implements SimpleJob {
     @Override
     public void execute(ShardingContext shardingContext) {
         try {
-            MDC.put(MDCTraceHelper.TraceMark, MDCTraceHelper.newTraceMark());
+            setNew();
             run(shardingContext);
         } finally {
-            MDC.clear();
+            clear();
         }
     }
 

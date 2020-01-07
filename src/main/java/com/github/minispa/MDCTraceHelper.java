@@ -13,38 +13,76 @@ public final class MDCTraceHelper {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
+    public static String newTraceMark(String traceMark) {
+        return isBlank(traceMark) ? newTraceMark() : traceMark;
+    }
+
+    public static String getNewIfAbsent() {
+        return newTraceMark(MDC.get(TraceMark));
+    }
+
     private MDCTraceHelper() {
     }
 
-    public static void set(String traceMark) {
-        MDC.put(TraceMark, traceMark);
-    }
-
-
-    public static void clear() {
-        MDC.clear();
-    }
-
-    public static String newIfBlank(String traceMark) {
-        return traceMark == null || traceMark.trim().length() == 0 ? newTraceMark() : traceMark;
-    }
-
-
-    // ~ =====================================================================
-    public static String newOrSetIfAbsent(String traceMark) {
-        boolean isBlank = traceMark == null || traceMark.trim().length() == 0;
-        if(isBlank) {
-            traceMark = newTraceMark();
-            MDC.put(ClearTraceMark, ClearTraceMark);
-        }
+    public static String setNew() {
+        String traceMark = newTraceMark();
+        MDC.put(ClearTraceMark, String.valueOf(true));
         MDC.put(TraceMark, traceMark);
         return traceMark;
     }
 
-    public static void clearIfPresent() {
-        if(ClearTraceMark.equals(MDC.get(ClearTraceMark))) {
-            MDC.remove(TraceMark);
+    public static String setNewIfAbsent(String traceMark) {
+        boolean isBlank = isBlank(traceMark);
+        if (isBlank) {
+            traceMark = newTraceMark();
+        }
+        MDC.put(ClearTraceMark, String.valueOf(isBlank));
+        MDC.put(TraceMark, traceMark);
+        return traceMark;
+    }
+
+    public static void clear() {
+        MDC.remove(ClearTraceMark);
+        MDC.remove(TraceMark);
+    }
+
+    public static void clearMark() {
+        if (Boolean.valueOf(MDC.get(ClearTraceMark))) {
+            MDC.clear();
+        } else {
             MDC.remove(ClearTraceMark);
+        }
+    }
+
+//    // ~ =====================================================================
+//    public static String newOrSetIfAbsent(String traceMark) {
+//        boolean isBlank = traceMark == null || traceMark.trim().length() == 0;
+//        if(isBlank) {
+//            traceMark = newTraceMark();
+//        }
+//        MDC.put(ClearTraceMark, String.valueOf(isBlank));
+//        MDC.put(TraceMark, traceMark);
+//        return traceMark;
+//    }
+//
+//    public static void clearIfPresent() {
+//        if(ClearTraceMark.equals(MDC.get(ClearTraceMark))) {
+//            MDC.remove(TraceMark);
+//            MDC.remove(ClearTraceMark);
+//        }
+//    }
+
+    public static boolean isBlank(CharSequence cs) {
+        int strLen;
+        if (cs != null && (strLen = cs.length()) != 0) {
+            for (int i = 0; i < strLen; ++i) {
+                if (!Character.isWhitespace(cs.charAt(i))) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return true;
         }
     }
 
