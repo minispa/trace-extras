@@ -16,46 +16,6 @@
         <commons-lang3.version>[3.0,)</commons-lang3.version>
     </properties>
 
-<!--
-    <dependencyManagement>
-        <dependencies>
-
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-bom</artifactId>
-                <version>${dubbo.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dangdang</groupId>
-                <artifactId>elastic-job</artifactId>
-                <version>${elastic-job.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dangdang</groupId>
-                <artifactId>elastic-job</artifactId>
-                <version>${elastic-job.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dangdang</groupId>
-                <artifactId>elastic-job-common</artifactId>
-                <version>${elastic-job.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
--->
-
     <dependencies>
 
         <dependency>
